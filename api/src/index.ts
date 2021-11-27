@@ -2,8 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import auth from './routes/auth';
-import todo from './routes/todo';
+import { auth, todo } from './routes';
 
 dotenv.config();
 
