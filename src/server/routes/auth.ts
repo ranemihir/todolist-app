@@ -9,17 +9,23 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.AUTH_CALLBACK_URL
-}, async (accessToken, refreshToken, profile, cb) => {
+}, async (accessToken, refreshToken, profile: any, cb) => {
     try {
-        const [firstName, lastName] = profile.displayName.split(' ');
+        if (!profile) {
+            throw new Error('profile object is undefined');
+        }
+
+        console.log(profile._json);
+
+        const { given_name, family_name, picture } = profile._json;
 
         UserModel.create({
-            firstName,
-            lastName,
-            email: profile.emails[0].value,
-            photoUrl: profile.profileUrl,
+            firstName: given_name,
+            lastName: family_name,
+            photoUrl: picture,
             accessToken
         }, (err: any, user: User) => {
+            console.log(user);
             if (err) {
                 console.error(err);
                 return;
@@ -27,6 +33,7 @@ passport.use(new GoogleStrategy({
 
             cb(null, user);
         });
+
     } catch (err: any) {
         console.error(err);
         return cb(err, false);
