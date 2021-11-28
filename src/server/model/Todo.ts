@@ -8,4 +8,4 @@ const todoSchema = new Schema<Todo>({
     deleted: Boolean
 });
 
-export const TodoModel = mongoose.model('User', todoSchema);
+export const TodoModel = mongoose.model('todo', todoSchema);

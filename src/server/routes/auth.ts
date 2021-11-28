@@ -19,7 +19,7 @@ passport.use(new GoogleStrategy({
             email: profile.emails[0].value,
             photoUrl: profile.profileUrl,
             accessToken
-        }, (err, user: User) => {
+        }, (err: any, user: User) => {
             if (err) {
                 console.error(err);
                 return;

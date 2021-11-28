@@ -1,13 +1,14 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import helmet from 'helmet';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import { auth, todo, views } from './routes';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-
-dotenv.config();
+import './db';
 
 const PORT = process.env.PORT || 3000;
 const app = express();

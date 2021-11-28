@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "start": "ts-node src/index.ts",
+    "start": "ts-node src/server/index.ts",
+    "build:serve": "node dist/js/server.js",
     "build:server": "webpack --env platform=server",
     "build:client": "webpack --env platform=web"
   },
