@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Todo } from '../types';
+import { Todo } from '../../types';
 const { Schema } = mongoose;
 
 

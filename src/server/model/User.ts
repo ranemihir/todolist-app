@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { User } from '../types';
+import { User } from '../../types';
 const { Schema } = mongoose;
 
 
