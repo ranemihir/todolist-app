@@ -4,6 +4,7 @@ import passport from 'passport';
 import { UserModel } from '../model';
 import { User } from '../types';
 
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -32,11 +33,11 @@ passport.use(new GoogleStrategy({
     }
 }));
 
-passport.serializeUser((user, cb) => {
+passport.serializeUser((user: any, cb) => {
     cb(null, user._id);
 });
 
-passport.deserializeUser((email, cb) => {
+passport.deserializeUser((email: string, cb) => {
     UserModel.findOne({
         email
     }, (err: string, user: User) => {

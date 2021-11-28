@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/login', (req, res) => {
     if (!req.user) {
-
+        
     }
 
     return res.redirect('/');
