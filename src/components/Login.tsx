@@ -1,3 +1,7 @@
-export const Login = () => {
+import * as React from "react";
 
-}
+export const Login = () => {
+    return (
+        <div>Login</div>
+    );
+};
