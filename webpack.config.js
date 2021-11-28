@@ -11,7 +11,7 @@ module.exports = function (env, argv) {
             publicPath: '/',
         },
         // Enable sourcemaps for debugging webpack's output.
-        devtool: 'cheap-module-eval-source-map',
+        devtool: 'source-map',
         resolve: {
             // Add '.ts' and '.tsx' as resolvable extensions.
             extensions: [".ts", ".tsx", ".js", ".json"],
