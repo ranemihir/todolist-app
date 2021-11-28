@@ -13,6 +13,7 @@ router.post('/create', async (req, res) => {
 
         const todo = new TodoModel({
             text,
+            userId: req.user
         });
 
         await todo.save();
@@ -23,8 +24,16 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.get('/todolist', (req, res) => {
+router.get('/todolist', async (req, res) => {
+    try {
+        const todos = await TodoModel.find({
+            userId: req.user
+        }).exists('deleted', false).exec();
 
+        return res.status(200).json({ todos });
+    } catch (err) {
+        console.error(err);
+    }
 });
 
 router.post('/delete/:id', async (req, res) => {
