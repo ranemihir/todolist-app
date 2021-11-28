@@ -30,7 +30,7 @@ export const Home = (props: { currentUser: User, todos: string[]; }) => {
                             <img src={currentUser.photoUrl} className="img-thumbnail rounded-circle shadow-sm me-2" alt={currentUser.firstName + ' thumbnail'} width='48' />
                             <div className="d-flex flex-column">
                                 <div>{currentUser.firstName + ' ' + currentUser.lastName}</div>
-                                <a className="text-muted" href='/auth/google/logout'></a>
+                                <a className="text-muted" href='/api/auth/google/logout'>Sign Out</a>
                             </div>
                         </div>
                     </div>

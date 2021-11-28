@@ -15,25 +15,41 @@ passport.use(new GoogleStrategy({
             throw new Error('profile object is undefined');
         }
 
-        console.log(profile._json);
+        const { given_name, family_name, picture, sub } = profile._json;
 
-        const { given_name, family_name, picture } = profile._json;
+        const user = await UserModel.findOne({
+            googleId: sub
+        }).exec();
 
-        UserModel.create({
-            firstName: given_name,
-            lastName: family_name,
-            photoUrl: picture,
-            accessToken
-        }, (err: any, user: User) => {
-            console.log(user);
-            if (err) {
-                console.error(err);
-                return;
-            }
+        console.log('user record =>', user);
+
+        if (!user) {
+            UserModel.create({
+                googleId: sub,
+                firstName: given_name,
+                lastName: family_name,
+                photoUrl: picture,
+                accessToken
+            }, (err: any, user: User) => {
+                console.log(user);
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+
+                cb(null, user);
+            });
+        } else {
+            await UserModel.updateOne({
+                googleId: sub
+            }, {
+                accessToken
+            }).exec();
+
+            user.accessToken = accessToken;
 
             cb(null, user);
-        });
-
+        }
     } catch (err: any) {
         console.error(err);
         return cb(err, false);
