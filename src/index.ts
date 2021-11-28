@@ -3,6 +3,9 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { auth, todo } from './routes';
+import passport from 'passport';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 
 dotenv.config();
 
@@ -14,8 +17,13 @@ app.use(cors({
     origin: '*'
 }));
 app.use(helmet());
+app.use(express.static('public'));
+app.use(cookieParser());
+app.use(session({ secret: 'keyboard cat' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use(auth);
-app.use(todo);
+app.use('/api', auth);
+app.use('/api', todo);
 
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
