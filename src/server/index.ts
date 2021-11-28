@@ -20,7 +20,7 @@ app.use(cors({
 app.use(helmet());
 app.use(express.static('public'));
 app.use(cookieParser());
-app.use(session({ secret: 'keyboard cat' }));
+app.use(session({ secret: process.env.EXPRESS_SESSION_SECRET }));
 app.use(passport.initialize());
 app.use(passport.session());
 
