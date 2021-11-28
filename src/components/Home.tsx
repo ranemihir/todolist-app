@@ -3,11 +3,15 @@ import { User } from "../types";
 const { useState, useEffect } = React;
 
 
-export const Home = (props: { currentUser: User; }) => {
-    const [todo, setTodo] = useState('');
+export const Home = (props: { currentUser: User, todos: string[]; }) => {
     const { currentUser } = props;
 
+    const [todo, setTodo] = useState<string>('');
+    const [todos, setTodos] = useState<string[]>(props.todos);
+
     const handleSubmit = async (event: any) => {
+        setTodos((todosState) => todosState.concat(todo));
+        setTodo('');
         event.preventDefault();
     };
 
@@ -21,7 +25,7 @@ export const Home = (props: { currentUser: User; }) => {
                 {
                     currentUser && currentUser != null &&
                     <div className="container-fluid">
-                        <a className="navbar-brand" href="/">Todolist</a>
+                        <a className="navbar-brand" href="/"><b>Todolist</b></a>
                         <div className="d-flex flex-row align-items-center float-end">
                             <img src={currentUser.photoUrl} className="img-thumbnail rounded-circle shadow-sm me-2" alt={currentUser.firstName + ' thumbnail'} width='48' />
                             <div className="d-flex flex-column">
@@ -40,6 +44,13 @@ export const Home = (props: { currentUser: User; }) => {
                             Add
                         </button>
                     </form>
+                </div>
+                <div className="row justify-content-center pt-5">
+                    {
+                        todos.map((todoText: string) => (
+                            <div className="alert alert-warning">{todoText}</div>
+                        ))
+                    }
                 </div>
             </div>
         </>

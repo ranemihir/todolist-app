@@ -5,6 +5,7 @@ import { renderToString } from 'react-dom/server';
 import { Home } from '../../components/Home';
 import { Login } from '../../components/Login';
 import { User } from '../../types';
+import { TodoModel } from '../model';
 
 
 const loginComponentMarkup: string = renderToString(React.createElement(Login));
@@ -38,16 +39,22 @@ router.get('/login', (req, res) => {
   return res.redirect('/');
 });
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   if (!req.user) {
     return res.redirect('/login');
   }
-
+  console.log(req.user);
   const currentUser = req.user as User;
+
+  const todosData = await TodoModel.find({
+    userId: currentUser._id
+  }).exists('deleted', false).exec();
+
+  const todos = todosData.map((todoData: any) => todoData.text);
 
   const homeComponentMarkup: string = renderToString(React.createElement(
     Home,
-    { currentUser }
+    { currentUser, todos }
   ));
 
   return res.send(html({

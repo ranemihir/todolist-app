@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "ts-node src/server/index.ts",
-    "serve": "node dist/js/server.js",
+    "serve": "node dist/js/server.js"
   },
   "repository": {
     "type": "git",
