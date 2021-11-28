@@ -40,6 +40,25 @@ passport.use(new GoogleStrategy({
     }
 }));
 
+passport.serializeUser((user: any, cb) => {
+    cb(null, user);
+});
+
+passport.deserializeUser((user: User, cb) => {
+    UserModel.findOne({
+        _id: user._id
+    }, (err: string, user: User) => {
+        if (err) {
+            console.error(err);
+            cb(err, false);
+
+            return;
+        }
+
+        cb(null, user);
+    });
+});
+
 const router = express.Router();
 
 router.get('/auth/google', passport.authenticate('google', {
@@ -50,6 +69,11 @@ router.get('/auth/google/callback', passport.authenticate('google', {
     failureRedirect: '/login',
 }), (req, res) => {
     res.redirect('/');
+});
+
+router.get('/auth/google/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login');
 });
 
 export default router;
