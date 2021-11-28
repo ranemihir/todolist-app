@@ -1,13 +1,23 @@
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+
 module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                },
+                loader: 'ts-loader'
             },
         ],
     },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    plugins: [
+        new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'index.html') }),
+        new webpack.HotModuleReplacementPlugin()
+    ]
 };

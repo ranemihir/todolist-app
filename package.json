@@ -28,12 +28,13 @@
     "@types/mongoose": "^5.11.97",
     "@types/node": "^16.11.9",
     "@types/passport-google-oauth20": "^2.0.11",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.2.3",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
     "eslint": "^8.3.0",
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "nodemon": "^2.0.15",
+    "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2",
     "webpack": "^5.64.4",
@@ -47,9 +48,12 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "helmet": "^4.6.0",
+    "history": "^5.1.0",
+    "html-webpack-plugin": "^5.5.0",
     "mongoose": "^6.0.13",
     "passport-google-oauth20": "^2.0.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.0.2"
   }
 }

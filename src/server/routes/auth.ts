@@ -2,7 +2,7 @@ import express from 'express';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import passport from 'passport';
 import { UserModel } from '../model';
-import { User } from '../types';
+import { User } from '../../types';
 
 
 passport.use(new GoogleStrategy({
