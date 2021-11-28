@@ -40,28 +40,7 @@ passport.use(new GoogleStrategy({
     }
 }));
 
-passport.serializeUser((user: any, cb) => {
-    cb(null, user._id);
-});
-
-passport.deserializeUser((email: string, cb) => {
-    UserModel.findOne({
-        email
-    }, (err: string, user: User) => {
-        if (err) {
-            console.error(err);
-            cb(err, false);
-
-            return;
-        }
-
-        cb(null, user);
-    });
-});
-
-
 const router = express.Router();
-
 
 router.get('/auth/google', passport.authenticate('google', {
     scope: ['profile']
