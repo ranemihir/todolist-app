@@ -24,7 +24,7 @@ passport.use(new GoogleStrategy({
                 return;
             }
 
-            cb(null, user._id);
+            cb(null, user);
         });
     } catch (err) {
         console.error(err);
@@ -33,7 +33,7 @@ passport.use(new GoogleStrategy({
 }));
 
 passport.serializeUser((user, cb) => {
-    cb(null, user);
+    cb(null, user._id);
 });
 
 passport.deserializeUser((email, cb) => {

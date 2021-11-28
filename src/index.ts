@@ -2,7 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { auth, todo } from './routes';
+import { auth, todo, views } from './routes';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -25,5 +25,6 @@ app.use(passport.session());
 
 app.use('/api', auth);
 app.use('/api', todo);
+app.use(views);
 
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
