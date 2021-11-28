@@ -28,8 +28,6 @@ const html = ({ title, body }: { title: string, body: string; }) => `
 `;
 
 router.get('/login', (req, res) => {
-  console.log('req.user =>', req.user);
-
   if (!req.user) {
     return res.send(html({
       title: 'Todo List - Login',
