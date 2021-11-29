@@ -5,7 +5,10 @@ const router = express.Router();
 
 router.post('/create', async (req, res) => {
     try {
-        if (!(req.session && req.session.tokenId)) {
+        const tokenId = req.cookies['tokenId'];
+        const _id = req.cookies['_id'];
+
+        if (!(tokenId && _id)) {
             return res.status(401).json({ error: 'Unauthenticated request' });
         }
 
@@ -17,7 +20,7 @@ router.post('/create', async (req, res) => {
 
         const todo = new TodoModel({
             text,
-            userId: req.user
+            userId: _id
         });
 
         await todo.save();

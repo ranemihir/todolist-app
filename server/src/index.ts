@@ -8,15 +8,7 @@ import todo from './routes/todo';
 import auth from './routes/auth';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import './db';
-
-declare module "express-session" {
-    interface Session {
-        _id: string;
-        tokenId: string;
-    }
-}
 
 
 const PORT = process.env.PORT || 4000;
@@ -28,12 +20,6 @@ app.use(cors({
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser());
-app.use(session({
-    secret: process.env.EXPRESS_SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true
-}));
-
 app.use(auth);
 app.use(todo);
 

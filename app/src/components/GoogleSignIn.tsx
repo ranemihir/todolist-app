@@ -1,6 +1,8 @@
 import { GoogleLogin } from 'react-google-login';
 import { User } from '../../../types';
 import * as userService from '../services/auth';
+// import Cookies from 'universal-cookie';
+// const cookies = new Cookies();
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
@@ -21,6 +23,7 @@ export const GoogleSignIn = (props: { setCurrentUserState: (user: User) => void;
             await userService.login(user);
 
             setCurrentUserState(user);
+
         } catch (err) {
             console.error(err);
         }
