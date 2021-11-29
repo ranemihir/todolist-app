@@ -1,5 +1,5 @@
 import { GoogleLogin } from 'react-google-login';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { User } from '../../../types';
 import * as userService from '../services/auth';
 
@@ -11,7 +11,7 @@ export const GoogleSignIn = (props: { currentUser: User | null, setCurrentUserSt
     const navigate = useNavigate();
 
     if (currentUser && currentUser != null && currentUser.email) {
-        return navigate('/');
+        navigate('/');
     }
 
     const onSuccess = async (res: any) => {
