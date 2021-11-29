@@ -2,7 +2,7 @@ import express from 'express';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import passport from 'passport';
 import { UserModel } from '../model';
-import { User } from '../../types';
+import { User } from '../../../types';
 
 
 passport.use(new GoogleStrategy({
@@ -89,7 +89,14 @@ router.get('/auth/google/callback', passport.authenticate('google', {
 
 router.get('/auth/google/logout', (req, res) => {
     req.logout();
-    res.redirect('/login');
+});
+
+router.get('/currentuser', (req, res) => {
+    if (!req.user) {
+        return res.status(404).end();
+    }
+
+    return res.status(200).json(req.user);
 });
 
 export default router;
