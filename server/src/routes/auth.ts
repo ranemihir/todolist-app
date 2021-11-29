@@ -35,7 +35,7 @@ router.post('/auth/google', async (req, res) => {
         }).exec();
     }
 
-    req.session.id = user.tokenId;
+    req.session.tokenId = user.tokenId;
     req.session.cookie.expires = new Date(payload.exp);
 
     return res.status(200).json(user);
@@ -47,8 +47,8 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/currentuser', async (req, res) => {
-    if (req.session) {
-        const tokenId = req.session.id;
+    if (req.session && req.session.tokenId) {
+        const tokenId = req.session.tokenId;
 
         const ticket = await client.verifyIdToken({
             idToken: tokenId,

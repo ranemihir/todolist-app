@@ -11,6 +11,13 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import './db';
 
+declare module "express-session" {
+    interface Session {
+        tokenId: string;
+    }
+}
+
+
 const PORT = process.env.PORT || 4000;
 const app = express();
 

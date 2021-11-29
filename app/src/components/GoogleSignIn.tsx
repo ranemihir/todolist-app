@@ -1,10 +1,19 @@
 import { GoogleLogin } from 'react-google-login';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { User } from '../../../types';
 import * as userService from '../services/auth';
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
-export const GoogleSignIn = (props: { setCurrentUserState: (user: User) => void; }) => {
+export const GoogleSignIn = (props: { currentUser: User | null, setCurrentUserState: (user: User) => void; }) => {
+    const { currentUser, setCurrentUserState } = props;
+
+    const navigate = useNavigate();
+
+    if (currentUser && currentUser != null && currentUser.email) {
+        return navigate('/');
+    }
+
     const onSuccess = async (res: any) => {
         try {
             const user: User = {
@@ -18,7 +27,7 @@ export const GoogleSignIn = (props: { setCurrentUserState: (user: User) => void;
 
             await userService.login(user);
 
-            props.setCurrentUserState(user);
+            setCurrentUserState(user);
         } catch (err) {
             console.error(err);
         }

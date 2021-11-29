@@ -1,15 +1,28 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User } from '../../../types';
 import * as todoService from '../services/todo';
 
 
 export const Home = (props: { currentUser: User | null, onLogout: () => void; }) => {
     const { currentUser, onLogout } = props;
+    const navigate = useNavigate();
     const [todo, setTodo] = useState<string>('');
     const [todos, setTodos] = useState<{ _id: string, text: string; }[]>([]);
 
-    useEffect(() => {
+    if (currentUser && currentUser != null && currentUser.email) {
+        navigate('/login');
+    }
 
+    useEffect(() => {
+        try {
+            (async () => {
+                const todosData: { _id: string, text: string; }[] = await todoService.getTodos() || [];
+                setTodos(todosData);
+            })();
+        } catch (err) {
+            console.error(err);
+        }
     }, []);
 
     const handleCreate = async () => {

@@ -33,11 +33,8 @@ export const App = () => {
     return (
         <Router>
             <Routes>
-                {
-                    (currentUser && currentUser !== null && currentUser.email)
-                        ? <Route path='/' element={<Home currentUser={currentUser} onLogout={onLogout} />} />
-                        : <Route path='/login' element={<GoogleSignIn setCurrentUserState={setCurrentUserState} />} />
-                }
+                <Route path='/' element={<Home currentUser={currentUser} onLogout={onLogout} />} />
+                <Route path='/login' element={<GoogleSignIn currentUser={currentUser} setCurrentUserState={setCurrentUserState} />} />
             </Routes>
         </Router>
     );
