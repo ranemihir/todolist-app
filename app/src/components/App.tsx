@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home } from './Home';
 import { Login } from './Login';
 
-const apiUrl = process.env.API_URL;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const App = () => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);

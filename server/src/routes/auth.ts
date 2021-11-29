@@ -84,7 +84,7 @@ router.get('/auth/google', passport.authenticate('google', {
 router.get('/auth/google/callback', passport.authenticate('google', {
     failureRedirect: '/login',
 }), (req, res) => {
-    res.redirect('/');
+    res.redirect(process.env.CLIENT_URL);
 });
 
 router.get('/auth/google/logout', (req, res) => {
