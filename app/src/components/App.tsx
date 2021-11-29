@@ -3,17 +3,22 @@ import { User } from '../../../types';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home } from './Home';
 import { GoogleSignIn } from './GoogleSignIn';
+import * as userService from '../services/auth';
 
 
 export const App = () => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
+    const setCurrentUserState = (user: User) => setCurrentUser(user);
+
     useEffect(() => {
         (async () => {
             try {
-                const currentUserData = await (await fetch('/currentuser')).json();
-                console.log(currentUserData);
-                setCurrentUser(currentUserData);
+                const currentUserData = await userService.getCurrentUser();
+
+                if (currentUserData) {
+                    setCurrentUser(currentUserData);
+                }
             } catch (err) {
                 console.error(err);
             }
@@ -21,15 +26,18 @@ export const App = () => {
     }, []);
 
     const onLogout = async () => {
-        await fetch(apiUrl + '/auth/google/logout');
+        await userService.logout();
         setCurrentUser(null);
     };
 
     return (
         <Router>
             <Routes>
-                <Route path='/' element={<Home currentUser={currentUser} onLogout={onLogout} />} />
-                <Route path='/login' element={<GoogleSignIn />} />
+                {
+                    (currentUser && currentUser !== null && currentUser.email)
+                        ? <Route path='/' element={<Home currentUser={currentUser} onLogout={onLogout} />} />
+                        : <Route path='/login' element={<GoogleSignIn setCurrentUserState={setCurrentUserState} />} />
+                }
             </Routes>
         </Router>
     );

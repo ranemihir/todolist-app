@@ -1,26 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '../../../types';
+import * as todoService from '../services/todo';
 
-// const apiUrl = process.env.REACT_APP_API_URL;
 
-
-export const Home = (props: { currentUser: User | null, onLogout: () => {}; }) => {
+export const Home = (props: { currentUser: User | null, onLogout: () => void; }) => {
     const { currentUser, onLogout } = props;
     const [todo, setTodo] = useState<string>('');
-    const [todos, setTodos] = useState<string[]>([]);
+    const [todos, setTodos] = useState<{ _id: string, text: string; }[]>([]);
 
-    const handleCreate = () => {
-        setTodos(todos.concat(todo));
-        setTodo('');
+    useEffect(() => {
+
+    }, []);
+
+    const handleCreate = async () => {
+        try {
+            const todoItem: { _id: string, text: string; } = await todoService.create(todo);
+
+            setTodos([todoItem].concat(todos));
+            setTodo('');
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     const handleChange = (event: any) => {
         setTodo(event.target.value);
     };
 
-    const handleDelete = (i: number) => {
-        const newTodos = todos.filter((val: string, index: number) => index !== i);
-        setTodos(newTodos);
+    const handleDelete = async (_id: string) => {
+        try {
+            await todoService.del(_id);
+            const newTodos = todos.filter((todoItem: { _id: string, text: string; }, index: number) => todoItem._id !== _id);
+            setTodos(newTodos);
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
@@ -58,10 +72,10 @@ export const Home = (props: { currentUser: User | null, onLogout: () => {}; }) =
                     <div className='col-8'>
                         {
                             (todos.length > 0) ?
-                                todos.map((todoText: string, i: number) => (
-                                    <div className="alert alert-warning border-2 rounded-pill px-4 d-flex flex-row justify-content-between shadow-sm">
-                                        <span>{todoText}</span>
-                                        <button type="button" className="btn ms-3 p-0" onClick={() => handleDelete(i)}>
+                                todos.map((todoItem: { _id: string, text: string; }, i: number) => (
+                                    <div key={todoItem._id} className="alert alert-warning border-2 rounded-pill px-4 d-flex flex-row justify-content-between shadow-sm">
+                                        <span>{todoItem.text}</span>
+                                        <button type="button" className="btn ms-3 p-0" onClick={() => handleDelete(todoItem._id)}>
                                             <i className="bi bi-x-circle-fill text-danger"></i>
                                         </button>
                                     </div>

@@ -1,10 +1,10 @@
 import { GoogleLogin } from 'react-google-login';
 import { User } from '../../../types';
-import { login } from '../services/auth';
+import * as userService from '../services/auth';
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
-export const GoogleSignIn = () => {
+export const GoogleSignIn = (props: { setCurrentUserState: (user: User) => void; }) => {
     const onSuccess = async (res: any) => {
         try {
             const user: User = {
@@ -16,7 +16,9 @@ export const GoogleSignIn = () => {
                 tokenId: res.tokenId
             };
 
-            await login(user);
+            await userService.login(user);
+
+            props.setCurrentUserState(user);
         } catch (err) {
             console.error(err);
         }
