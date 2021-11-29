@@ -2,18 +2,21 @@ import { useEffect, useState } from 'react';
 import { User } from '../../../types';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home } from './Home';
-import { Login } from './Login';
+import { GoogleSignIn } from './GoogleSignIn';
 
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export const App = () => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
     useEffect(() => {
         (async () => {
-            const currentUserData = await (await fetch(apiUrl + '/currentuser')).json();
-            console.log(currentUserData);
-            setCurrentUser(currentUserData);
+            try {
+                const currentUserData = await (await fetch('/currentuser')).json();
+                console.log(currentUserData);
+                setCurrentUser(currentUserData);
+            } catch (err) {
+                console.error(err);
+            }
         })();
     }, []);
 
@@ -26,7 +29,7 @@ export const App = () => {
         <Router>
             <Routes>
                 <Route path='/' element={<Home currentUser={currentUser} onLogout={onLogout} />} />
-                <Route path='/login' element={<Login />} />
+                <Route path='/login' element={<GoogleSignIn />} />
             </Routes>
         </Router>
     );

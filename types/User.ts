@@ -3,6 +3,7 @@ export interface User {
     googleId: string;
     firstName: string;
     lastName: string;
+    email: string;
     photoUrl: string;
-    accessToken: string;
+    tokenId: string;
 }
