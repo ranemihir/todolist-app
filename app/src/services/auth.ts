@@ -1,5 +1,7 @@
 import { User } from "../../../types";
 
+const apiUrl = process.env.REACT_APP_API_URL as string;
+
 export async function login(user: User) {
     try {
         const res = await fetch("/auth/google", {
@@ -22,7 +24,7 @@ export async function login(user: User) {
 
 export async function logout() {
     try {
-        await fetch("/logout", {
+        await fetch(apiUrl + "/logout", {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -34,7 +36,7 @@ export async function logout() {
 
 export async function getCurrentUser() {
     try {
-        const res = await fetch('/currentuser', {
+        const res = await fetch(apiUrl + '/currentuser', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json"

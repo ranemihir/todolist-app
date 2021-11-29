@@ -31,13 +31,20 @@ export const GoogleSignIn = (props: { setCurrentUserState: (user: User) => void;
     };
 
     return (
-        <GoogleLogin
-            clientId={clientId}
-            buttonText='Sign In with Google'
-            theme='dark'
-            // isSignedIn={true}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-        />
+        <div className='container'>
+            <div className='row justify-content-center my-5'>
+                <div className='col-5'>
+                    <GoogleLogin
+                        clientId={clientId}
+                        buttonText='Sign In with Google'
+                        theme='dark'
+                        // isSignedIn={true}
+                        onSuccess={onSuccess}
+                        onFailure={onFailure}
+                    />
+                </div>
+            </div>
+        </div>
+
     );
 };

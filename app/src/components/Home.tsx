@@ -58,7 +58,7 @@ export const Home = (props: { currentUser: User | null, onLogout: () => void; })
                             <img src={currentUser.photoUrl} className="img-thumbnail rounded-circle shadow-sm me-2" alt={currentUser.firstName + ' thumbnail'} width='48' />
                             <div className="d-flex flex-column">
                                 <div>{currentUser.firstName + ' ' + currentUser.lastName}</div>
-                                <span className="text-muted text-decoration-none" onClick={onLogout}><small>Sign Out</small></span>
+                                <span className="text-muted text-decoration-none" onClick={onLogout} style={{ cursor: 'pointer' }}><small>Sign Out</small></span>
                             </div>
                         </div>
                     }

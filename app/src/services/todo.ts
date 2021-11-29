@@ -1,6 +1,9 @@
+const apiUrl = process.env.REACT_APP_API_URL as string;
+
+
 export async function create(text: string) {
     try {
-        const res = await fetch('/create', {
+        const res = await fetch(apiUrl + '/create', {
             method: 'POST',
             body: JSON.stringify({
                 text
@@ -20,7 +23,7 @@ export async function create(text: string) {
 
 export async function getTodos() {
     try {
-        const res = await fetch('/todolist', {
+        const res = await fetch(apiUrl + '/todolist', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json"
@@ -37,7 +40,7 @@ export async function getTodos() {
 
 export async function del(_id: string) {
     try {
-        const res = await fetch('/delete', {
+        const res = await fetch(apiUrl + '/delete', {
             method: 'POST',
             body: JSON.stringify({
                 _id
