@@ -5,16 +5,16 @@ const router = express.Router();
 
 router.post('/create', async (req, res) => {
     try {
-        const tokenId = req.cookies['tokenId'];
-        const _id = req.cookies['_id'];
+        const tokenId = req.cookies['token_id'] || req.headers['token_id'];
+        const _id = req.cookies['_id'] || req.headers['_id'];
 
         if (!(tokenId && _id)) {
-            return res.status(401).json({ error: 'Unauthenticated request' });
+            return res.status(401).send('Unauthenticated request');
         }
 
         const { text } = req.body;
 
-        if (text || text != '') {
+        if ((!text) || text === '') {
             return res.status(400).json({ error: 'Text is not present or empty' });
         }
 
@@ -33,8 +33,15 @@ router.post('/create', async (req, res) => {
 
 router.get('/todolist', async (req, res) => {
     try {
+        const tokenId = req.cookies['token_id'] || req.headers['token_id'];
+        const _id = req.cookies['_id'] || req.headers['_id'];
+
+        if (!(tokenId && _id)) {
+            return res.status(401).send('Unauthenticated request');
+        }
+
         const todos = await TodoModel.find({
-            userId: req.user
+            userId: _id
         }).exists('deleted', false).exec();
 
         return res.status(200).json({ todos });
@@ -45,6 +52,13 @@ router.get('/todolist', async (req, res) => {
 
 router.post('/delete/:id', async (req, res) => {
     try {
+        const tokenId = req.cookies['token_id'] || req.headers['token_id'];
+        const _id = req.cookies['_id'] || req.headers['_id'];
+
+        if (!(tokenId && _id)) {
+            return res.status(401).send('Unauthenticated request');
+        }
+
         const todoId = req.params.id;
 
         if (!todoId) {
@@ -52,7 +66,8 @@ router.post('/delete/:id', async (req, res) => {
         }
 
         const todo = await TodoModel.findOne({
-            _id: todoId
+            _id: todoId,
+            userId: _id
         }).exec();
 
         if (!todo) {

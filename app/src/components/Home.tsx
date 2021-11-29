@@ -11,7 +11,8 @@ export const Home = (props: { currentUser: User | null, onLogout: () => void; })
     useEffect(() => {
         try {
             (async () => {
-                const todosData: { _id: string, text: string; }[] = await todoService.getTodos() || [];
+                const todosData: { _id: string, text: string; }[] = await todoService.getTodos(currentUser as User) || [];
+                console.log(todosData);
                 setTodos(todosData);
             })();
         } catch (err) {
@@ -21,9 +22,11 @@ export const Home = (props: { currentUser: User | null, onLogout: () => void; })
 
     const handleCreate = async () => {
         try {
-            const todoItem: { _id: string, text: string; } = await todoService.create(todo);
+            const todoItem: { _id: string, text: string; } = await todoService.create(todo, currentUser as User);
 
-            setTodos([todoItem].concat(todos));
+            const newTodos = [todoItem].concat(todos);
+            setTodos(newTodos);
+
             setTodo('');
         } catch (err) {
             console.error(err);
@@ -36,7 +39,7 @@ export const Home = (props: { currentUser: User | null, onLogout: () => void; })
 
     const handleDelete = async (_id: string) => {
         try {
-            await todoService.del(_id);
+            await todoService.del(_id, currentUser as User);
             const newTodos = todos.filter((todoItem: { _id: string, text: string; }, index: number) => todoItem._id !== _id);
             setTodos(newTodos);
         } catch (err) {
@@ -58,7 +61,7 @@ export const Home = (props: { currentUser: User | null, onLogout: () => void; })
                             <img src={currentUser.photoUrl} className="img-thumbnail rounded-circle shadow-sm me-2" alt={currentUser.firstName + ' thumbnail'} width='48' />
                             <div className="d-flex flex-column">
                                 <div>{currentUser.firstName + ' ' + currentUser.lastName}</div>
-                                <span className="text-muted text-decoration-none" onClick={onLogout} style={{ cursor: 'pointer' }}><small>Sign Out</small></span>
+                                <small className="text-muted text-decoration-none" onClick={onLogout} style={{ cursor: 'pointer' }}>Sign Out</small>
                             </div>
                         </div>
                     }

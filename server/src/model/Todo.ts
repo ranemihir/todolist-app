@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 
 const todoSchema = new Schema<Todo>({
     text: { type: String, required: true },
+    userId: { type: String, required: true },
     deleted: Boolean
 });
 

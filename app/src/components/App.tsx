@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { User } from '../../../types';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home } from './Home';
@@ -13,22 +13,23 @@ export const App = () => {
 
     const setCurrentUserState = (user: User) => setCurrentUser(user);
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const currentUserData = await userService.getCurrentUser();
+    // useEffect(() => {
+    //     (async () => {
+    //         try {
+    //             const currentUserData = await userService.getCurrentUser();
 
-                if (currentUserData) {
-                    setCurrentUser(currentUserData);
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        })();
-    }, []);
+    //             if (currentUserData) {
+    //                 setCurrentUser(currentUserData);
+    //             }
+    //         } catch (err) {
+    //             console.error(err);
+    //         }
+    //     })();
+
+    // }, []);
 
     const onLogout = async () => {
-        await userService.logout();
+        await userService.logout(currentUser as User);
         setCurrentUser(null);
     };
 

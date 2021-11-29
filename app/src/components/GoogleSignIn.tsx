@@ -20,7 +20,8 @@ export const GoogleSignIn = (props: { setCurrentUserState: (user: User) => void;
                 tokenId: res.tokenId
             };
 
-            await userService.login(user);
+            const { _id } = await userService.login(user);
+            user._id = _id;
 
             setCurrentUserState(user);
 

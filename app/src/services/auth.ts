@@ -9,6 +9,7 @@ export async function login(user: User) {
             body: JSON.stringify({
                 user: user
             }),
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json"
             }
@@ -22,12 +23,15 @@ export async function login(user: User) {
     }
 }
 
-export async function logout() {
+export async function logout(currentUser: User) {
     try {
+        const headers = new Headers();
+        headers.set('token_id', currentUser.tokenId);
+        headers.set('_id', currentUser._id as string);
+        headers.set('Content-Type', 'application/json');
+
         await fetch(apiUrl + "/logout", {
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers
         });
     } catch (err) {
         console.error(err);
@@ -45,11 +49,11 @@ export async function getCurrentUser() {
 
         const data = await res.json();
 
-        if (!data) {
-            return false;
+        if (data && data._id) {
+            return data;
         }
 
-        return data;
+        return false;
     } catch (err) {
         console.error(err);
         return false;

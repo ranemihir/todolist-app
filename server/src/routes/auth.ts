@@ -21,12 +21,14 @@ router.post('/auth/google', async (req, res) => {
         return res.status(400).json({ error: 'Invalid token Id' });
     }
 
-    const userDoc = await UserModel.findOne({
+    let userDoc;
+
+    userDoc = await UserModel.findOne({
         email: user.email
     }).exec();
 
     if (!userDoc) {
-        await UserModel.create(user);
+        userDoc = await UserModel.create(user);
     } else {
         await UserModel.updateOne({
             email: user.email
@@ -45,21 +47,21 @@ router.post('/auth/google', async (req, res) => {
         expires
     });
 
-    return res.status(200).json(user);
+    return res.status(200).json(userDoc);
 });
 
 router.get('/logout', (req, res) => {
-    res.clearCookie('tokenId');
+    res.clearCookie('token_id');
     res.clearCookie('_id');
     res.end();
 });
 
 router.get('/currentuser', async (req, res) => {
-    const tokenId = req.cookies['tokenId'];
-    const _id = req.cookies['_id'];
+    const tokenId = req.cookies['token_id'] || req.headers['token_id'];
+    const _id = req.cookies['_id'] || req.headers['_id'];
 
     if (!(tokenId && _id)) {
-        return res.status(401).json({ error: 'Unauthenticated request' });
+        return res.status(401).send('Unauthenticated request');
     }
 
     const ticket = await client.verifyIdToken({
@@ -70,7 +72,7 @@ router.get('/currentuser', async (req, res) => {
     const payload = ticket.getPayload();
 
     if (!payload) {
-        return res.status(400).json({ error: 'Invalid token Id provided' });
+        return res.status(400).send('Invalid token Id provided');
     }
 
     const { email } = payload;
