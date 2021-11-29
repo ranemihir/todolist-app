@@ -50,7 +50,7 @@ export const Home = (props: { currentUser: User | null, onLogout: () => void; })
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-                <div className="container-fluid">
+                <div className="container-fluid px-3">
                     <span className='d-flex flex-row align-items-center'>
                         <i className="bi bi-check-circle-fill text-primary" style={{ fontSize: '1.4rem' }}></i>
                         <a className="navbar-brand ms-2" href="/"><b>TodoList</b></a>
