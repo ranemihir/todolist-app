@@ -1,18 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { User } from '../../../types';
 import * as todoService from '../services/todo';
 
 
 export const Home = (props: { currentUser: User | null, onLogout: () => void; }) => {
     const { currentUser, onLogout } = props;
-    const navigate = useNavigate();
     const [todo, setTodo] = useState<string>('');
     const [todos, setTodos] = useState<{ _id: string, text: string; }[]>([]);
-
-    if (currentUser && currentUser != null && currentUser.email) {
-        navigate('/login');
-    }
 
     useEffect(() => {
         try {
@@ -86,7 +80,7 @@ export const Home = (props: { currentUser: User | null, onLogout: () => void; })
                         {
                             (todos.length > 0) ?
                                 todos.map((todoItem: { _id: string, text: string; }, i: number) => (
-                                    <div key={todoItem._id} className="alert alert-warning border-2 rounded-pill px-4 d-flex flex-row justify-content-between shadow-sm">
+                                    <div key={i} className="alert alert-warning border-2 rounded-pill px-4 d-flex flex-row justify-content-between shadow-sm">
                                         <span>{todoItem.text}</span>
                                         <button type="button" className="btn ms-3 p-0" onClick={() => handleDelete(todoItem._id)}>
                                             <i className="bi bi-x-circle-fill text-danger"></i>

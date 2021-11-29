@@ -13,6 +13,7 @@ import './db';
 
 declare module "express-session" {
     interface Session {
+        _id: string;
         tokenId: string;
     }
 }

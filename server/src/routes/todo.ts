@@ -5,6 +5,10 @@ const router = express.Router();
 
 router.post('/create', async (req, res) => {
     try {
+        if (!(req.session && req.session.tokenId)) {
+            return res.status(401).json({ error: 'Unauthenticated request' });
+        }
+
         const { text } = req.body;
 
         if (text || text != '') {

@@ -36,6 +36,7 @@ router.post('/auth/google', async (req, res) => {
     }
 
     req.session.tokenId = user.tokenId;
+    req.session._id = userDoc._id;
     req.session.cookie.expires = new Date(payload.exp);
 
     return res.status(200).json(user);

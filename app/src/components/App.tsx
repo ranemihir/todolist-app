@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home } from './Home';
 import { GoogleSignIn } from './GoogleSignIn';
 import * as userService from '../services/auth';
+import { Auth } from './Auth';
+import { Anonymous } from './Anonymous';
 
 
 export const App = () => {
@@ -33,8 +35,16 @@ export const App = () => {
     return (
         <Router>
             <Routes>
-                <Route path='/' element={<Home currentUser={currentUser} onLogout={onLogout} />} />
-                <Route path='/login' element={<GoogleSignIn currentUser={currentUser} setCurrentUserState={setCurrentUserState} />} />
+                <Route path='/' element={
+                    <Auth currentUser={currentUser}>
+                        <Home currentUser={currentUser} onLogout={onLogout} />
+                    </Auth>
+                } />
+                <Route path='/login' element={
+                    <Anonymous currentUser={currentUser}>
+                        <GoogleSignIn setCurrentUserState={setCurrentUserState} />
+                    </Anonymous>
+                } />
             </Routes>
         </Router>
     );
